@@ -13,10 +13,17 @@ fn parse_features(line: &str) -> Vec<f32> {
     feature_vec
 }
 
-fn mean(list: &Vec<f32>) -> f32 {
+fn total(list: &Vec<f32>) -> f32 {
     list.iter()
-    .fold(0.0, |acc, &x| acc + x) / list.iter().count() as f32
+    .fold(0.0, |sum, x| sum + x)
 }
+
+fn rmse_score(list: &Vec<&Vec<f32>>) -> f32 {
+    list.iter()
+    .map(|&x| total(x).powi(2) / x.iter().count() as f32)
+    .fold(0.0, |sum, x| sum + x)
+}
+
 
 fn main() {
     let input = env::args().nth(1).unwrap();
