@@ -13,6 +13,11 @@ fn parse_features(line: &str) -> Vec<f32> {
     feature_vec
 }
 
+fn mean(list: &Vec<f32>) -> f32 {
+    list.iter()
+    .fold(0.0, |acc, &x| acc + x) / list.iter().count() as f32
+}
+
 fn main() {
     let input = env::args().nth(1).unwrap();
     let file = File::open(input).unwrap();
@@ -20,6 +25,7 @@ fn main() {
     for (num, line) in BufReader::new(file).lines().enumerate() {
         let p_line = line.unwrap();
         let features = parse_features(&p_line);
-        println!("{}: {:?}", num, features);
+        let mean_f = mean(&features);
+        println!("{}: {:?} {:?}", num, features, mean_f);
     }
 }
